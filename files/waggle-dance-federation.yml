@@ -1,0 +1,9 @@
+primary-meta-store:
+  access-control-type: READ_AND_WRITE_AND_CREATE_ON_DATABASE_WHITELIST
+  database-prefix: ''
+  name: local
+  remote-meta-store-uris: thrift://hive-metastore:10083
+  writable-database-white-list:
+  - default
+  - test*
+
