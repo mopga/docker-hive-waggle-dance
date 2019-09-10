@@ -1,8 +1,14 @@
 primary-meta-store:
   access-control-type: READ_AND_WRITE_AND_CREATE_ON_DATABASE_WHITELIST
   database-prefix: ''
+  latency: 0
   name: prim_hive
   remote-meta-store-uris: thrift://hive-metastore:9083
   writable-database-white-list:
   - default
-
+federated-meta-stores:
+- access-control-type: READ_ONLY
+  database-prefix: hm2
+  latency: 0
+  name: federated
+  remote-meta-store-uris: thrift://hive-metastore2:9083
