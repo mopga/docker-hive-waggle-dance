@@ -6,6 +6,7 @@ primary-meta-store:
   remote-meta-store-uris: thrift://hive-metastore:9083
   writable-database-white-list:
   - default
+  - test
 federated-meta-stores:
 - access-control-type: READ_ONLY
   database-prefix: hm2

@@ -1,0 +1,16 @@
+version: '2'
+
+services:
+
+  nginx-waggle:
+    image: nginx
+    container_name: app_nginx
+    volumes:
+      - ./conf/waggle.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - 12345:48869
+
+networks:
+    default:
+        external:
+            name: waggle-hive_default

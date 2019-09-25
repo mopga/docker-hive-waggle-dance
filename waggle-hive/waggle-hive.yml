@@ -57,6 +57,18 @@ services:
     volumes:
       - ./federation.yml:/opt/waggle-dance/conf/waggle-dance-federation.yml
 
+  waggle-dance2:
+    build:
+      context: .
+      dockerfile: Dockerfile.waggle
+    restart: always
+    container_name: waggle2
+    ports:
+      - "49869:48869"
+    volumes:
+      - ./federation.yml:/opt/waggle-dance/conf/waggle-dance-federation.yml
+
+
 volumes:
   namenode:
   datanode:

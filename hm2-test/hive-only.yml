@@ -1,0 +1,58 @@
+version: "3"
+
+services:
+  namenode2:
+    image: bde2020/hadoop-namenode:2.0.0-hadoop2.7.4-java8
+    volumes:
+      - namenode2:/hadoop/dfs/name
+    environment:
+      - CLUSTER_NAME=test
+    env_file:
+      - ./hadoop-hive.env
+    ports:
+      - "15070:50070"
+
+  datanode2:
+    image: bde2020/hadoop-datanode:2.0.0-hadoop2.7.4-java8
+    volumes:
+      - datanode2:/hadoop/dfs/data
+    env_file:
+      - ./hadoop-hive.env
+    environment:
+      SERVICE_PRECONDITION: "namenode2:50070"
+    ports:
+      - "15075:50075"
+
+  hive-server2:
+    image: bde2020/hive:2.3.2-postgresql-metastore
+    env_file:
+      - ./hadoop-hive.env
+    environment:
+      HIVE_CORE_CONF_javax_jdo_option_ConnectionURL: "jdbc:postgresql://hive-metastore2:5432/metastore"
+      SERVICE_PRECONDITION: "hive-metastore2:9083"
+    ports:
+      - "11000:10000"
+
+  hive-metastore2:
+    image: bde2020/hive:2.3.2-postgresql-metastore
+    env_file:
+      - ./hadoop-hive.env
+    command: /opt/hive/bin/hive --service metastore
+    environment:
+      SERVICE_PRECONDITION: "namenode2:50070 datanode2:50075 hive-metastore-postgresql2:5432"
+    ports:
+      - "19083:9083"
+
+  hive-metastore-postgresql2:
+    image: bde2020/hive-metastore-postgresql:2.3.0
+    ports:
+      - "15432:5432"
+
+volumes:
+  namenode2:
+  datanode2:
+
+networks:
+    default:
+        external:
+            name: waggle-hive_default
